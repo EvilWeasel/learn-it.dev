@@ -1,0 +1,15 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { Sidebar } from "@/components/navigation/sidebar";
+---
+
+<Layout title="Dashboard">
+  <div class="h-full">
+    <div class="hidden md:flex h-full w-56 flex-col fixed inset-y-0 z-50">
+      <Sidebar client:only />
+    </div>
+    <main class="md:pl-56 h-full">
+      <slot />
+    </main>
+  </div>
+</Layout>

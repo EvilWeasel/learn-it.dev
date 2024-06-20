@@ -1,0 +1,24 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Prose from "@/components/prose.astro";
+
+const pb = Astro.locals.pb;
+const records = await pb.collection("posts").getFullList({
+  sort: "-created",
+});
+const record = records[0];
+const token = pb.files.getToken();
+const fileName = record.image;
+const imageUrl = pb.files.getUrl(record, fileName, { token: token });
+---
+
+<Layout title="Blogs">
+  <h1>Blogs</h1>
+  <div class="border p-4">
+    <img src={imageUrl} alt="test" />
+    <h2>{record.title}</h2>
+    <p>{record.description}</p>
+    <hr />
+    <Prose set:html={record.content} />
+  </div>
+</Layout>

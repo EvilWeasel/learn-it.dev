@@ -1,0 +1,88 @@
+---
+import "@/styles/globals.css";
+import { AccountButton } from "@/components/account-button";
+import { ViewTransitions } from "astro:transitions";
+import { Sidebar } from "@/components/navigation/sidebar";
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+
+const navigationPaths = [
+  ["Home", "/"],
+  ["Blogs", "/blogs"],
+  ["Courses", "/courses"],
+];
+const pb = Astro.locals.pb;
+const model = pb.authStore.model;
+
+let user;
+let imageUrl;
+try {
+  user = await pb.collection("users").getOne(model!.id);
+  const fileName = user.avatar;
+  const token = pb.files.getToken();
+  imageUrl = pb.files.getUrl(user, fileName, { token: token });
+} catch (error) {
+  console.error(error);
+}
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <ViewTransitions />
+  </head>
+  <body class="h-full">
+    <header class="hidden md:flex h-full w-56 flex-col fixed inset-y-0 z-50">
+      <Sidebar client:only />
+    </header>
+    <main transition:animate="slide" class="md:pl-56 h-full flex flex-col">
+      <nav class="flex p-4 justify-end">
+        {/* todo: theme-toggle-button */}
+        <AccountButton client:load model={model} imageUrl={imageUrl} />
+      </nav>
+      <div id="page-content">
+        <slot />
+      </div>
+    </main>
+
+    <style is:global>
+      :root {
+        --accent: 136, 58, 234;
+        --accent-light: 224, 204, 250;
+        --accent-dark: 49, 10, 101;
+        --accent-gradient: linear-gradient(
+          45deg,
+          rgb(var(--accent)),
+          rgb(var(--accent-light)) 30%,
+          white 60%
+        );
+      }
+      html {
+        font-family: system-ui, sans-serif;
+      }
+      body {
+        min-height: 100vh;
+      }
+      code {
+        font-family:
+          Menlo,
+          Monaco,
+          Lucida Console,
+          Liberation Mono,
+          DejaVu Sans Mono,
+          Bitstream Vera Sans Mono,
+          Courier New,
+          monospace;
+      }
+    </style>
+  </body>
+</html>
