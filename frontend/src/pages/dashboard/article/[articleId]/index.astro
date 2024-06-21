@@ -1,5 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { Editor } from "@/components/editor";
+import type { PartialBlock } from "@blocknote/core";
 
 const params = Astro.params;
 
@@ -9,11 +11,12 @@ const articleId = params.articleId as string;
 const pb = Astro.locals.pb;
 
 const article = await pb.collection("posts").getOne(articleId);
+
+const initialContent = article.content as PartialBlock[];
 ---
 
 <Layout title="ArticleId">
-  <article class="prose dark:prose-invert p-4">
-    <h1>{article.title}</h1>
-    <div class="content" id="content" set:html={article.content} />
+  <article>
+    <Editor client:only="react" initialContent={initialContent} articleId={article.id}/>
   </article>
 </Layout>

@@ -24,8 +24,13 @@ Quizzes and much more.
 - [ ] Implement Layout
   - [x] Navigation
   - [ ] Dashboard
-    - [ ] Create Articles
+    - [ ] Utils
+      - [ ] Debounce fetch from client-component
+    - [x] Create Articles
+    - [x] Modify Articles
+    - [ ] add meta-data form for article details
     - [ ] Create Courses
+    - [ ] Modify Courses
   - [ ] Blogs-Browse
     - [ ] Reading-View
   - [ ] Courses-Browse
