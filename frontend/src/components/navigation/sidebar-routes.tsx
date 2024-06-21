@@ -1,17 +1,12 @@
 "use client";
 
-import {
-  BarChart,
-  Compass,
-  Construction,
-  Home,
-  Layout,
-  LayoutDashboard,
-  List,
-  Newspaper,
-} from "lucide-react";
+import { Construction, Home, Newspaper } from "lucide-react";
 import { SidebarItem } from "@/components/navigation/sidebar-item";
 import { DashboardNav } from "@/components/navigation/dashboard-nav";
+
+interface SidebarRoutesProps {
+  loggedIn: boolean;
+}
 
 const routes = [
   {
@@ -30,12 +25,15 @@ const homeRoute = {
   label: "Welcome",
   href: "/",
 };
-export const SidebarRoutes = () => {
+export const SidebarRoutes = ({ loggedIn }: SidebarRoutesProps) => {
   return (
     <div className="flex h-full flex-col justify-end">
-      <div className="flex w-full flex-col">
-        <DashboardNav />
-      </div>
+      {loggedIn && (
+        <div className="flex w-full flex-col">
+          <DashboardNav />
+        </div>
+      )}
+
       <div className="flex w-full flex-col">
         {routes.map((route) => (
           <SidebarItem key={route.href} {...route} />

@@ -27,9 +27,11 @@ export const authentication = defineMiddleware(
     console.info("authentication_middleware");
     if (!pbURL) throw new Error("PB_URL is not defined");
     const pb = new PocketBase(pbURL);
+    console.info("PocketBase instance created");
     locals.pb = pb;
     locals.pb.autoCancellation(false);
     if (authproviderRoutes.some((route) => url.pathname.startsWith(route))) {
+      console.error("no auth-provider found");
       return next();
     }
     locals.pb.authStore.loadFromCookie(request.headers.get("cookie") || "");
@@ -43,10 +45,10 @@ export const authentication = defineMiddleware(
     const response = await next();
     response.headers.append(
       "Set-Cookie",
-      locals.pb.authStore.exportToCookie({ sameSite: "Lax" })
+      locals.pb.authStore.exportToCookie({ sameSite: "Lax" }),
     );
     return response;
-  }
+  },
 );
 export const authorization = defineMiddleware(
   async ({ locals, request, redirect, url }, next) => {
@@ -59,7 +61,7 @@ export const authorization = defineMiddleware(
     const routeIsRoot = url_parsed.pathname === "/";
     const routeIsProtected =
       !unprotectedRoutes.some((route) =>
-        url_parsed.pathname.startsWith(route)
+        url_parsed.pathname.startsWith(route),
       ) && !routeIsRoot;
     let isLoggedIn = false;
     if (routeIsProtected && !routeIsRoot) {
@@ -72,7 +74,7 @@ export const authorization = defineMiddleware(
     }
     const response = await next();
     return response;
-  }
+  },
 );
 
 export const onRequest = sequence(authentication, authorization);

@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import { AccountButton } from "@/components/account-button";
 import { ViewTransitions } from "astro:transitions";
 import { Sidebar } from "@/components/navigation/sidebar";
+import { ErrorAlert } from "@/components/dberror-alert";
 interface Props {
   title: string;
 }
@@ -14,16 +15,31 @@ const navigationPaths = [
   ["Blogs", "/blogs"],
   ["Courses", "/courses"],
 ];
-const pb = Astro.locals.pb;
-const model = pb.authStore.model;
+let pb;
+let model;
 
 let user;
 let imageUrl;
 try {
-  user = await pb.collection("users").getOne(model!.id);
-  const fileName = user.avatar;
-  const token = pb.files.getToken();
-  imageUrl = pb.files.getUrl(user, fileName, { token: token });
+  pb = Astro.locals.pb;
+  model = pb.authStore.model;
+  if (model) {
+    user = await pb.collection("users").getOne(model.id);
+    const fileName = user.avatar;
+    const token = pb.files.getToken();
+    imageUrl = pb.files.getUrl(user, fileName, { token: token });
+    console.info(imageUrl);
+  } else {
+    console.error(
+      "DB not connected! Maybe you forgot to start the PocketBase instance, or misconfigured the connection-string?",
+      "PocketBase Instance:\n",
+      pb,
+      "Model:\n",
+      model,
+      "User:\n",
+      user
+    );
+  }
 } catch (error) {
   console.error(error);
 }
@@ -41,13 +57,37 @@ try {
     <ViewTransitions />
   </head>
   <body class="h-full">
-    <header class="hidden md:flex h-full w-56 flex-col fixed inset-y-0 z-50">
-      <Sidebar client:only />
+    <header
+      transition:persist
+      class="hidden md:flex h-full w-56 flex-col fixed inset-y-0 z-50"
+    >
+      <Sidebar client:only="react" loggedIn={!!model} />
     </header>
     <main transition:animate="slide" class="md:pl-56 h-full flex flex-col">
       <nav class="flex p-4 justify-end">
         {/* todo: theme-toggle-button */}
-        <AccountButton client:load model={model} imageUrl={imageUrl} />
+        {
+          pb && model && (
+            <AccountButton client:load model={model} imageUrl={imageUrl} />
+          )
+        }
+        {
+          pb && !model && (
+            <div class="flex items-center flex-1 gap-4">
+              <ErrorAlert message="Learning is more fun, if this site remembers your progress. Log-In with you Github account, to get the most out of your stay here. 😁" />
+              <AccountButton
+                client:load
+                model={model || null}
+                imageUrl={imageUrl}
+              />
+            </div>
+          )
+        }
+        {
+          !pb && !model && (
+            <ErrorAlert message="DB not connected! Maybe you forgot to start the PocketBase instance, or misconfigured the connection-string?" />
+          )
+        }
       </nav>
       <div id="page-content">
         <slot />
