@@ -1,0 +1,19 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+const params = Astro.params;
+
+// cast params to Params
+const articleId = params.articleId as string;
+
+const pb = Astro.locals.pb;
+
+const article = await pb.collection("posts").getOne(articleId);
+---
+
+<Layout title="ArticleId">
+  <article class="prose dark:prose-invert p-4">
+    <h1>{article.title}</h1>
+    <div class="content" id="content" set:html={article.content} />
+  </article>
+</Layout>

@@ -24,10 +24,10 @@ const authproviderRoutes = [
 
 export const authentication = defineMiddleware(
   async ({ locals, request, cookies, url }, next) => {
-    console.info("authentication_middleware");
+    // console.info("authentication_middleware");
     if (!pbURL) throw new Error("PB_URL is not defined");
     const pb = new PocketBase(pbURL);
-    console.info("PocketBase instance created");
+    // console.info("PocketBase instance created");
     locals.pb = pb;
     locals.pb.autoCancellation(false);
     if (authproviderRoutes.some((route) => url.pathname.startsWith(route))) {
@@ -39,7 +39,7 @@ export const authentication = defineMiddleware(
       locals.pb.authStore.isValid &&
         (await locals.pb.collection("users").authRefresh());
     } catch (error) {
-      console.info("Failed to refresh auth token", error);
+      // console.info("Failed to refresh auth token", error);
       locals.pb.authStore.clear();
     }
     const response = await next();
@@ -52,7 +52,7 @@ export const authentication = defineMiddleware(
 );
 export const authorization = defineMiddleware(
   async ({ locals, request, redirect, url }, next) => {
-    console.log("authorization_middleware");
+    // console.log("authorization_middleware");
     const url_parsed = new URL(request.url);
     // log the origin
     if (authproviderRoutes.some((route) => url.pathname.startsWith(route))) {

@@ -8,6 +8,7 @@ interface SidebarItemProps {
   label: string;
   href: string;
   className?: string;
+  inset?: boolean;
 }
 
 export const SidebarItem = ({
@@ -15,6 +16,7 @@ export const SidebarItem = ({
   label,
   href,
   className,
+  inset = false,
 }: SidebarItemProps) => {
   const pathname = window.location.pathname;
 
@@ -32,7 +34,8 @@ export const SidebarItem = ({
       onClick={onClick}
       type="button"
       className={cn(
-        "box-border flex h-full w-full items-center gap-x-2 pl-6 text-sm font-[500] text-slate-500 transition-all hover:bg-slate-300/20 hover:text-slate-600",
+        "box-border flex h-full w-full items-center gap-x-2 text-sm font-[500] text-slate-500 transition-all hover:bg-slate-300/20 hover:text-slate-600",
+        !inset ? "pl-6" : "pl-2",
         isActive &&
           "bg-sky-200/20 text-sky-700 hover:bg-sky-200/20 hover:text-sky-700",
       )}

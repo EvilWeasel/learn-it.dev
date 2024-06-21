@@ -13,14 +13,20 @@ export const DashboardNav = () => {
 
   const isActive = pathname === dashboardItem.href;
 
-  const onClick = () => {
+  const onNavigate = () => {
     window.location.href = dashboardItem.href;
+  };
+
+  const onNewArticle = async () => {
+    const response = await fetch("/api/article", { method: "POST" });
+
+    console.log(response);
   };
 
   return (
     <div className={cn("rounded-lg border-2 border-slate-500")}>
       <button
-        onClick={onClick}
+        onClick={onNavigate}
         type="button"
         className={cn(
           "flex h-fit w-full items-center gap-x-2 pl-6 text-sm font-[500] text-slate-500 transition-all hover:bg-slate-300/20 hover:text-slate-600",
@@ -44,19 +50,25 @@ export const DashboardNav = () => {
       </button>
       <div className="ml-2 flex flex-col">
         <span className="flex items-center">
-          <PlusCircle size={22} />
+          <button className="p-2" onClick={onNewArticle}>
+            <PlusCircle size={22} />
+          </button>
           <SidebarItem
             icon={LayoutDashboard}
             label="My Articles"
             href="/dashboard/articles"
+            inset={true}
           />
         </span>
         <span className="flex items-center">
-          <PlusCircle size={22} />
+          <button className="p-2">
+            <PlusCircle size={22} />
+          </button>
           <SidebarItem
             icon={LayoutDashboard}
             label="My Courses"
             href="/dashboard/courses"
+            inset={true}
           />
         </span>
       </div>

@@ -28,7 +28,7 @@ try {
     const fileName = user.avatar;
     const token = pb.files.getToken();
     imageUrl = pb.files.getUrl(user, fileName, { token: token });
-    console.info(imageUrl);
+    // console.info(imageUrl);
   } else {
     console.error(
       "DB not connected! Maybe you forgot to start the PocketBase instance, or misconfigured the connection-string?",

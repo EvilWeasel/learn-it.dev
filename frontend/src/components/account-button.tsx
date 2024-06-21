@@ -21,7 +21,7 @@ export interface AccountButtonProps {
 
 export const AccountButton = ({ model, imageUrl }: AccountButtonProps) => {
   // user is logged in, if there is a pb_auth cookie set
-  console.log("account-button", imageUrl);
+  // console.log("account-button", imageUrl);
   return (
     <div className="flex">
       {model && (
