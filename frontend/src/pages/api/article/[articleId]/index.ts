@@ -6,14 +6,16 @@ export const PATCH: APIRoute = async ({
   request,
   redirect,
 }: APIContext) => {
+  let body;
   try {
     const pb = locals.pb;
     const articleId = params.articleId as string;
-    const { content } = await request.json();
-    await pb.collection("posts").update(articleId, { content })
+    body = await request.json();
+    await pb.collection("posts").update(articleId, body);
     return new Response("OK", { status: 200 });
   } catch (error) {
     console.error("api/article/[articleId]/index.ts:PATCH", error);
+    console.error("body was:", body);
     return redirect("/dashboard");
   }
 };

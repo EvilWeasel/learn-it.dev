@@ -12,7 +12,7 @@ const routes = [
   {
     icon: Newspaper,
     label: "Browse Blogs",
-    href: "/blogs",
+    href: "/articles",
   },
   {
     icon: Construction,

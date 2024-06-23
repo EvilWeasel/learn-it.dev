@@ -20,7 +20,10 @@
     "@blocknote/mantine": "^0.14.1",
     "@blocknote/react": "^0.14.1",
     "@blocknote/shadcn": "^0.14.1",
+    "@hookform/resolvers": "^3.6.0",
+    "@radix-ui/react-collapsible": "^1.1.0",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
+    "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slot": "^1.0.2",
     "@reactivex/rxjs": "^6.6.7",
     "@types/react": "^18.3.3",
@@ -35,13 +38,15 @@
     "pocketbase": "^0.21.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.52.0",
     "rxjs": "^7.8.1",
     "solid-devtools": "^0.30.1",
     "solid-js": "^1.8.17",
     "tailwind-merge": "^2.3.0",
     "tailwindcss": "^3.4.4",
     "tailwindcss-animate": "^1.0.7",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.13",

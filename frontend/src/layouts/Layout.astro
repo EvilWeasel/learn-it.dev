@@ -4,6 +4,8 @@ import { AccountButton } from "@/components/account-button";
 import { ViewTransitions } from "astro:transitions";
 import { Sidebar } from "@/components/navigation/sidebar";
 import { ErrorAlert } from "@/components/dberror-alert";
+import { ArticleMetaForm } from "@/components/forms/article-meta-form";
+
 interface Props {
   title: string;
 }
@@ -63,7 +65,7 @@ try {
     >
       <Sidebar client:only="react" loggedIn={!!model} />
     </header>
-    <main transition:animate="slide" class="md:pl-56 h-full flex flex-col">
+    <main transition:animate="slide" class="md:pl-56 flex flex-col h-screen">
       <nav class="flex p-4 justify-end">
         {/* todo: theme-toggle-button */}
         {
@@ -89,7 +91,7 @@ try {
           )
         }
       </nav>
-      <div id="page-content">
+      <div id="page-content" class="h-full">
         <slot />
       </div>
     </main>
@@ -110,6 +112,9 @@ try {
         font-family: system-ui, sans-serif;
       }
       body {
+        min-height: 100vh;
+      }
+      main {
         min-height: 100vh;
       }
       code {

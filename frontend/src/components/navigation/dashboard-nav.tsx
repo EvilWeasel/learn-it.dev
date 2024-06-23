@@ -19,7 +19,7 @@ export const DashboardNav = () => {
 
   const onNewArticle = async () => {
     const response = await fetch("/api/article", { method: "POST" });
-
+    // todo: window.location.href = `/dashboard/article/${response.id}`;
     console.log(response);
   };
 
@@ -56,7 +56,7 @@ export const DashboardNav = () => {
           <SidebarItem
             icon={LayoutDashboard}
             label="My Articles"
-            href="/dashboard/articles"
+            href="/dashboard/article"
             inset={true}
           />
         </span>
@@ -67,7 +67,7 @@ export const DashboardNav = () => {
           <SidebarItem
             icon={LayoutDashboard}
             label="My Courses"
-            href="/dashboard/courses"
+            href="/dashboard/course"
             inset={true}
           />
         </span>

@@ -23,7 +23,7 @@ export const AccountButton = ({ model, imageUrl }: AccountButtonProps) => {
   // user is logged in, if there is a pb_auth cookie set
   // console.log("account-button", imageUrl);
   return (
-    <div className="flex">
+    <div className="z-50 flex">
       {model && (
         <Button
           className="mr-4"
@@ -33,7 +33,7 @@ export const AccountButton = ({ model, imageUrl }: AccountButtonProps) => {
         </Button>
       )}
       {!model && (
-        <form action="/api/auth/login" method="get">
+        <form action="/api/auth/login" method="get" className="z-50">
           <Button type="submit" className="flex justify-between gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +57,11 @@ export const AccountButton = ({ model, imageUrl }: AccountButtonProps) => {
       {model && (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="secondary" size="icon" className="rounded-full">
+            <Button
+              variant="secondary"
+              size="icon"
+              className="z-50 rounded-full"
+            >
               {imageUrl ? (
                 <img
                   src={imageUrl}
