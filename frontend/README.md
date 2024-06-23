@@ -10,7 +10,7 @@ The goal is to create a LMS, that adheres to the following principles:
 - Brain is great for critical thinking and not good for storing information
 - Students need to feel like they are on a save and curated learning-journey, that actually get's them results
 - Understanding concepts is great, being able to build is much more valuable
-- Learning should be open, information should be free, respect is manditory
+- Learning should be open, information should be free, respect is mandatory
 
 ## First Steps
 
