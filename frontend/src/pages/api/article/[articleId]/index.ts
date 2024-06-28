@@ -6,16 +6,29 @@ export const PATCH: APIRoute = async ({
   request,
   redirect,
 }: APIContext) => {
-  let body;
   try {
     const pb = locals.pb;
     const articleId = params.articleId as string;
-    body = await request.json();
-    await pb.collection("posts").update(articleId, body);
-    return new Response("OK", { status: 200 });
+
+    const formData = await request.formData();
+
+    const title = formData.get("title") as string;
+    const description = formData.get("description") as string;
+    const image = formData.get("image") as File;
+
+    console.log(image);
+
+    const post = await pb
+      .collection("posts")
+      .update(articleId, { title, description, image });
+    let postWithImageUrl = {
+      ...post,
+      image: pb.files.getUrl(post, post.image),
+    };
+    console.log("Updated post:", postWithImageUrl);
+    return new Response(JSON.stringify(postWithImageUrl), { status: 200 });
   } catch (error) {
     console.error("api/article/[articleId]/index.ts:PATCH", error);
-    console.error("body was:", body);
     return redirect("/dashboard");
   }
 };

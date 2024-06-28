@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 const pb = Astro.locals.pb;
 
@@ -13,16 +14,29 @@ const articles = await pb.collection("posts").getFullList({
 ---
 
 <Layout title="dashboardArticleList">
-  {
-    articles.map((article) => {
-      return (
-        <a href={`/dashboard/article/${article.id}`}>
-          <div class="border border-slate-500 rounded-md p-6">
-            <h2 class="text-3xl">{article.title}</h2>
-            <p class="text-muted-foreground">{article.description}</p>
-          </div>
-        </a>
-      );
-    })
-  }
+  <div class="flex flex-wrap gap-4 m-8">
+    {
+      articles.map(async (article) => {
+        const imageUrl = await pb.files.getUrl(article, article.image);
+        return (
+          <a
+            href={`/dashboard/article/${article.id}`}
+            class="min-w-[400px] hover:bg-slate-500/20"
+          >
+            <div class="border border-slate-500 rounded-md p-6">
+              <AspectRatio ratio={16 / 9}>
+                <img
+                  src={imageUrl}
+                  alt="Article Hero Image"
+                  class="rounded-md object-cover"
+                />
+              </AspectRatio>
+              <h2 class="text-3xl">{article.title}</h2>
+              <p class="text-muted-foreground">{article.description}</p>
+            </div>
+          </a>
+        );
+      })
+    }
+  </div>
 </Layout>

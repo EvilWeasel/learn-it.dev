@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import { LayoutDashboard, PlusCircle } from "lucide-react";
 import { SidebarItem } from "./sidebar-item";
+import type { Post } from "@/pages/api/article";
 
 export const DashboardNav = () => {
   const dashboardItem = {
@@ -19,7 +20,8 @@ export const DashboardNav = () => {
 
   const onNewArticle = async () => {
     const response = await fetch("/api/article", { method: "POST" });
-    // todo: window.location.href = `/dashboard/article/${response.id}`;
+    const post = (await response.json()) as Post;
+    window.location.href = `/dashboard/article/${post.id}`;
     console.log(response);
   };
 

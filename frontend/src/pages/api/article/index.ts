@@ -1,6 +1,6 @@
 import type { APIContext, APIRoute } from "astro";
 
-interface Post {
+export interface Post {
   id: string;
   title: string;
   description: string;
@@ -36,7 +36,10 @@ export const POST: APIRoute = async ({
     };
 
     const record = await locals.pb.collection("posts").create<Post>(data);
-    return redirect(`/dashboard/article/${record.id}`);
+    //return redirect(`/dashboard/article/${record.id}`);
+    return new Response(JSON.stringify(record), {
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (error) {
     console.error("api/article/index.ts:POST", error);
   }

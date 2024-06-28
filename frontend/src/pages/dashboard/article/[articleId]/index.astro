@@ -19,6 +19,10 @@ const pb = Astro.locals.pb;
 const article = await pb.collection("posts").getOne(articleId);
 
 const initialContent = article.content as PartialBlock[];
+
+// check if image already exists and add to metaform
+const fileName = article.image;
+const imageUrl = pb.getFileUrl(article, fileName);
 ---
 
 <Layout title="ArticleId">
@@ -30,6 +34,7 @@ const initialContent = article.content as PartialBlock[];
         articleId={article.id}
         initialTitle={article.title}
         initialDescription={article.description}
+        initialImageUrl={imageUrl}
       />
     </div>
     <Editor
